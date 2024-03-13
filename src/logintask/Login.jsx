@@ -30,36 +30,41 @@ export const Login = () => {
             },
             body: JSON.stringify(Check)
         })
-         .then(response => {
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(`Server returned status: ${response.status}`);
+            }
+        })
+        .then(data => {
+            if (!data.username || !data.password) {
+                alert("Enter valid details");
+            } else {
+                alert("Login successful");
+                if (data.role === 'admin') {
+                    navigate("/admin");
 
-                if (response.status === 200) {
-                    console.log("datareceived", response);
-                    alert("singup seccessfully");
-                    navigate("/homels");
-                }
-            }).catch(error => {
-                console.log("error", error);
-            })
-            .then((data) => {
-
-                if (data == !formData.username && data == !formData.password) {
-                    return alert("Enter valid details");
                 } else {
-                    console.log("Data", data)
-                    setFormData(data)
+                    navigate("/songs");
+
                 }
-            })
-            .catch((error) => {
-                console.error("Error during fetch", error);
-            });
+                console.log("Data", data);
+                setFormData(data);
+            }
+        })
+        .catch(error => {
+            console.error("Error during fetch", error);
+            alert("Please enter the correct data");
+        });
 
     }
     return (
         <div className="css" >
 
             <div className="outer">
-                <h1>Login Form</h1>
-                <h4>login in to get notified</h4>
+                <h1 style={{textAlign:"center"}}>Login Form</h1>
+                
                 <div>
                     <form onSubmit={handleSubmit}>
 

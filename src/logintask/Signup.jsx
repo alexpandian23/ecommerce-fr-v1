@@ -26,6 +26,10 @@ export const Signup = () => {
     event.preventDefault();
     // Signup1();
     console.log(formData);
+    if(!data.username || !data.email || !data.password){
+      alert("please fill in all fields")
+    }
+    
     fetch("http://localhost:8080/form/signup", {
       method: 'POST',
       headers: {
